@@ -1,0 +1,43 @@
+<h1>Special Date</h1>
+
+<div *ngIf="!state.edit" style="margin-bottom: 10px;">
+  <button (click)="add()" class="btn btn-primary">new</button>
+</div>
+
+<form *ngIf="state.edit">
+  <div class="form-group">
+    <label for="name">Description</label>
+    <input type="hidden" class="form-control" [(ngModel)]="specialDate._id" id="id" [ngModelOptions]="{standalone: true}">
+    <input type=" text" class="form-control" [(ngModel)]="specialDate.description" id="description" name="description" placeholder="description" [ngModelOptions]="{standalone: true}">
+  </div>
+  <div class=" form-group">
+    <label for="name">Date</label>
+    <input type="date" class="form-control" [ngModel]="specialDate.date | date:'yyyy-MM-dd'" (change)="specialDate.date = $event.target.value" id="birthdate" name="date" placeholder="date" [ngModelOptions]="{standalone: true}">
+  </div>
+  <div class=" form-group">
+    <label for="name">Discount</label>
+    <input type=" text" class="form-control" [(ngModel)]="specialDate.discount" id="date" name="discount" placeholder="discount" [ngModelOptions]="{standalone: true}">
+
+  </div>
+
+  <button type=" submit" class="btn btn-primary" (click)="save(specialDate)">Save</button>
+  <button type="submit" class="btn btn-default" (click)="cancel()">Cancel</button>
+</form>
+
+<table *ngIf="!state.edit && ( $specialDates | async )?.length" class="table">
+  <tr>
+    <th>Description</th>
+    <th>Date</th>
+    <th>Discount</th>
+    <th>Actions</th>
+  </tr>
+  <tr *ngFor="let specialDate of ( $specialDates | async )">
+    <td>{{specialDate.description}}</td>
+    <td>{{specialDate.date | date : 'yyyy-MM-dd'}}</td>
+    <td>{{specialDate.discount}}</td>
+    <td>
+      <button class="btn btn-sm btn-danger" (click)="delete(specialDate)"> <i class="fa fa-trash"></i></button>&nbsp;
+      <button class="btn btn-sm btn-primary" (click)="edit(specialDate)"><i class="fa fa-pen"></i></button>
+    </td>
+  </tr>
+</table>

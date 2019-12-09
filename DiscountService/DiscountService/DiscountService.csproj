@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UserSecretsId>d7243904-3809-4f0d-99b2-e95b54a81368</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Protos\Discount.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.23.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.5" />
+    <PackageReference Include="MongoDB.Driver" Version="2.9.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\Discount.proto" GrpcServices="Server" />
+  </ItemGroup>
+
+  <!--<Target Name="PostBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="copy Protos\*.* ..\ProductApi\app\infra\grpc\protos\*.*" />
+  </Target>-->
+
+  <ItemGroup>
+    <MySourceFiles Include="Protos\**\*.proto"/>
+  </ItemGroup>
+
+  <Target Name="CopyFiles" AfterTargets="PostBuildEvent">
+    <Copy
+        SourceFiles="@(MySourceFiles)"
+        DestinationFolder="..\..\ProductApi\app\infra\grpc\protos\"
+        />
+  </Target>
+
+</Project>

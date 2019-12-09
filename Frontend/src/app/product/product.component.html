@@ -1,0 +1,49 @@
+<h1>Products</h1>
+
+<div *ngIf="!state.edit" style="margin-bottom: 10px;">
+  <button (click)="add()" class="btn btn-primary">new</button>
+</div>
+
+<form *ngIf="state.edit">
+  <input type="hidden" class="form-control" [(ngModel)]="product._id" id="id" name="id" placeholder="id">
+
+  <div class="form-group">
+    <label for="name">Title</label>
+    <input type="text" class="form-control" [(ngModel)]="product.title" id="title" name="title" placeholder="title">
+  </div>
+
+  <div class="form-group">
+    <label for="name">Description</label>
+    <input type="text" class="form-control" [(ngModel)]="product.description" id="description" name="description" placeholder="description">
+  </div>
+
+  <div class="form-group">
+    <label for="name">Location</label>
+    <input type="text" class="form-control" [(ngModel)]="product.price" id="discount" name="price" placeholder="price">
+  </div>
+  <button type="submit" class="btn btn-primary" (click)="save(product)">Save</button>
+  <button type="submit" class="btn btn-default" (click)="cancel()">Cancel</button>
+</form>
+
+<table *ngIf="!state.edit && ($products | async)?.length" class="table">
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Price</th>
+    <th>Actions</th>
+  </tr>
+  <tr *ngFor="let product of ( $products | async )">
+    <td>{{product.title}}</td>
+    <td>{{product.description}}</td>
+    <td *ngIf="product.discount.pct > 0">
+      from: <span style="text-decoration: line-through; color:red">{{product.price}}</span><br />
+      to: <span style="color:gren">{{product.discount.finalPrice}}</span><br />
+      discount: <span style="color:gren">{{product.discount.pct}} %</span><br />
+    </td>
+    <td *ngIf="product.discount.pct === 0">{{product.price}}</td>
+    <td>
+      <button class="btn btn-sm btn-danger" (click)="delete(product)"> <i class="fa fa-trash"></i></button>&nbsp;
+      <button class="btn btn-sm btn-primary" (click)="edit(product)"><i class="fa fa-pen"></i></button>
+    </td>
+  </tr>
+</table>

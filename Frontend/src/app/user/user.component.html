@@ -1,0 +1,43 @@
+<h1>Users</h1>
+
+<div *ngIf="!state.edit" style="margin-bottom: 10px;">
+  <button (click)="add()" class="btn btn-primary">new</button>
+</div>
+
+<form *ngIf="state.edit">
+  <div class="form-group">
+    <label for="name">Firs tName</label>
+    <input type="hidden" class="form-control" [(ngModel)]="user._id" id="id" [ngModelOptions]="{standalone: true}">
+    <input type=" text" class="form-control" [(ngModel)]="user.firstname" id="firstname" name="firstname" placeholder="firstname" [ngModelOptions]="{standalone: true}">
+  </div>
+  <div class=" form-group">
+    <label for="name">Last Name</label>
+    <input type=" text" class="form-control" [(ngModel)]="user.lastname" id="lastname" name="lastname" placeholder="lastname" [ngModelOptions]="{standalone: true}">
+
+  </div>
+  <div class=" form-group">
+    <label for="name">Birth Date</label>
+
+    <input type="date" class="form-control" [ngModel]="user.birthdate | date:'yyyy-MM-dd'" (change)="user.birthdate = $event.target.value" id="birthdate" name="birthdate" placeholder="birthdate" [ngModelOptions]="{standalone: true}">
+  </div>
+  <button type=" submit" class="btn btn-primary" (click)="save(user)">Save</button>
+  <button type="submit" class="btn btn-default" (click)="cancel()">Cancel</button>
+</form>
+
+<table *ngIf="!state.edit && ( $users | async )?.length" class="table">
+  <tr>
+    <th>Name</th>
+    <th>Birth Date</th>
+    <th>Actions</th>
+  </tr>
+  <tr *ngFor="let user of ( $users | async )">
+    <td>{{user.firstname}} - {{user.lastname}}</td>
+    <td>{{user.birthdate | date : 'yyyy-MM-dd'}}</td>
+    <td>
+      <button class="btn btn-sm btn-danger" (click)="delete(user)"> <i class="fa fa-trash"></i></button>&nbsp;
+      <button class="btn btn-sm btn-primary" (click)="edit(user)"><i class="fa fa-pen"></i></button>&nbsp;
+      <button *ngIf="!logggedUser || logggedUser._id != user._id" class="btn btn-sm btn-success" (click)="login(user)"><i class="fa fa-user"></i>LOGIN</button>
+      <button *ngIf="logggedUser && logggedUser._id == user._id" class="btn btn-sm btn-danger" (click)="logout(user)"><i class="fa fa-user"></i>LOGOUT</button>
+    </td>
+  </tr>
+</table>
