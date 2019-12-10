@@ -21,6 +21,8 @@ Run the files `build-run-docker.bat` on Windows or `build-run-docker.sh` on Linu
 
 ### ENDPOINTS
 
+after run locally or on docker, you can access the services through endpoints below
+
 #### Frontend
 
 > - **Angular** -http://localhost:4200
