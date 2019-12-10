@@ -1,4 +1,4 @@
-const CommandsFactory = require("hystrixjs").commandFactory;
+const CommandsFactory = require('hystrixjs').commandFactory;
 const createCommand = (
   runFn,
   opts = {
@@ -18,7 +18,7 @@ const createCommand = (
     .requestVolumeRejectionThreshold(opts.concurrency)
     .build();
 
-    const createRpcCommand = rpcFn =>
+const createRpcCommand = rpcFn =>
   createCommand(
     request =>
       new Promise((resolve, reject) => {

@@ -1,0 +1,73 @@
+version: '3'
+#mongo
+services:
+  discount-mongodb:
+    image: docker.io/mongo
+    ports:
+      - 27017:27017
+    networks:
+      - discount-network
+    volumes:
+      - discount-data-mongo:/data/db
+    container_name: discount-mongodb
+
+  #front
+  discount-front:
+    build:
+      dockerfile: Dockerfile
+      context: ./Frontend
+    image: discount/front
+    container_name: discount-front
+    ports:
+      - 4200:80
+    networks:
+      - discount-network
+    depends_on:
+      - discount-api
+
+  discount-api:
+    build:
+      dockerfile: Dockerfile
+      context: ./ProductApi
+    environment:
+      - DB_URL=mongodb://discount-mongodb:27017/productdb
+      - APP_PORT=5001
+      - APP_URL_PREFIX=
+      - GRPC_SERVER=discount-service:5003
+    image: discount/api
+    container_name: discount-api
+    ports:
+      - 5001:5001
+    networks:
+      - discount-network
+    depends_on:
+      - 'discount-mongodb'
+      - 'discount-service'
+    links:
+      - 'discount-mongodb'
+      - 'discount-service'
+
+  discount-service:
+    build:
+      dockerfile: DiscountService/Dockerfile
+      context: ./DiscountService
+    environment:
+      - AppConfiguration:DB_URL=mongodb://discount-mongodb:27017/productdb
+      - AppConfiguration:DB_NAME=productdb
+      - ASPNETCORE_URLS=http://+:5003
+    image: discount/service
+    container_name: discount-service
+    ports:
+      - 5003:80
+    networks:
+      - discount-network
+    depends_on:
+      - 'discount-mongodb'
+    links:
+      - 'discount-mongodb'
+
+networks:
+  discount-network:
+    driver: bridge
+volumes:
+  discount-data-mongo:

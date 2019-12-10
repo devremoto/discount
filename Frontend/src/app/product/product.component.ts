@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from '../models/product';
 import { Observable } from 'rxjs';
 import { ProductService } from '../services/product.service';
+import { ProductModalComponent } from './product-modal.component';
+import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-product',
@@ -15,7 +17,9 @@ export class ProductComponent implements OnInit {
   state = {
     edit: false,
   };
-  constructor(private productService: ProductService) { }
+  private modalRef: NgbModalRef;
+
+  constructor(private productService: ProductService, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.load();
@@ -26,6 +30,7 @@ export class ProductComponent implements OnInit {
 
   add() {
     this.state.edit = true;
+    this.product = new Product();
   }
 
   edit(product: Product) {
@@ -85,6 +90,13 @@ export class ProductComponent implements OnInit {
   cancel() {
     this.product = {} as Product;
     this.state.edit = false;
+  }
+
+  openModal(productId: string) {
+    const options = { size: 'lg', backdrop: 'static', windowClass: 'modal-primary' } as NgbModalOptions;
+    this.modalRef = this.modalService.open(ProductModalComponent, options);
+    this.modalRef.componentInstance.name = 'productModal';
+    this.modalRef.componentInstance.productId = productId;
   }
 
 }

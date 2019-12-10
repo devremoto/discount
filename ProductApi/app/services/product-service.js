@@ -3,57 +3,28 @@ const repository = require('../infra/repositories/product-repository');
 const discountService = require('./discount-service');
 
 const userService = {
-  list: userId => {
-    console.log(userId);
-    return new Promise(async (resolve, reject) => {
-      let products = [];
-      let discount = null;
-      try {
-        discount = await discountService.discount(userId);
-      } catch (error) {
-        resolve(repository.getAll());
-        return;
-      }
-
-      console.log(discount);
-
-      repository
-        .getAll()
-        .then(
-          result => {
-            console.log('****************************************');
-            console.log(result);
-            console.log(discount);
-            products = result.map(x => {
-              x.discount.pct = discount ? discount.pct : 0;
-              x.discount.value = discount ? (x.price * discount.pct) / 100 : 0;
-              x.discount.finalPrice = discount
-                ? x.price * (1 - discount.pct / 100)
-                : x.price;
-              return x;
-            });
-            resolve(products);
-          },
-          error => reject(error)
-        )
-        .catch(err => {
-          JL('mongo-service:create').error(err);
-          reject(err);
-        });
+  list: async userId => {
+    discount = await discountService.discount(userId);
+    return new Promise((resolve, reject) => {
+      repository.getAll().then(
+        result => {
+          products = result.map(x => {
+            x.discount.pct = discount ? discount.pct : 0;
+            x.discount.value = discount ? (x.price * discount.pct) / 100 : 0;
+            x.discount.finalPrice = discount
+              ? x.price * (1 - discount.pct / 100)
+              : x.price;
+            return x;
+          });
+          resolve(products);
+        },
+        error => reject(error)
+      );
     });
   },
 
   getById: (id, userId) => {
-    return new Promise(async (resolve, reject) => {
-      var product = discountService.productDisount(id, userId);
-      if (product) {
-        resolve(product);
-      } else {
-        repository.find({ query: { id } }).then(result => {
-          result ? resolve(result) : reject(`The product  not found`);
-        });
-      }
-    });
+    return discountService.productDiscount(id, userId);
   },
 
   create: entity => {

@@ -9,13 +9,15 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { SpecialDateComponent } from './special-date/special-date.component';
 import { DiscountInterceptor } from './services/discount-interceptor';
+import { ProductModalComponent } from './product/product-modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductComponent,
     UserComponent,
-    SpecialDateComponent
+    SpecialDateComponent,
+    ProductModalComponent
   ],
   imports: [
     BrowserModule,
@@ -23,6 +25,9 @@ import { DiscountInterceptor } from './services/discount-interceptor';
     NgbModule,
     HttpClientModule,
     FormsModule
+  ],
+  entryComponents: [
+    ProductModalComponent
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: DiscountInterceptor, multi: true }],
   bootstrap: [AppComponent]

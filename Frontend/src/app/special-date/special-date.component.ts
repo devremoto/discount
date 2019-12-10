@@ -26,6 +26,7 @@ export class SpecialDateComponent implements OnInit {
 
   add() {
     this.state.edit = true;
+    this.specialDate = new SpecialDate();
   }
 
   edit(specialDate: SpecialDate) {

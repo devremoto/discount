@@ -1,27 +1,31 @@
 {
-	"name": "tg-node-mongo",
-	"version": "1.0.0",
-	"description": "Node API and mongoDB",
-	"main": "index.js",
-	"scripts": {
-		"mon": "nodemon index.js",
-		"start": "node index.js",
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"author": "Adilson de Almeida Pedro",
-	"license": "ISC",
-	"dependencies": {
-		"body-parser": "^1.19.0",
-		"cors": "^2.8.5",
-		"ejs": "^3.0.1",
-		"express": "^4.17.1",
-		"express-load": "^1.1.16",
-		"express-validator": "^5.3.0",
-		"grpc": "^1.24.2",
-		"hystrixjs": "^0.2.0",
-		"jsnlog": "^2.29.0",
-		"mongoose": "^5.7.13",
-		"swagger-jsdoc": "^3.4.0",
-		"swagger-ui-express": "^4.1.2"
-	}
+  "name": "tg-node-mongo",
+  "version": "1.0.0",
+  "description": "Node API and mongoDB",
+  "main": "index.js",
+  "scripts": {
+    "mon": "nodemon index.js",
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Adilson de Almeida Pedro",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "express-load": "^1.1.16",
+    "express-validator": "^5.3.0",
+    "grpc": "^1.24.2",
+    "hystrixjs": "^0.2.0",
+    "jsnlog": "^2.29.0",
+    "mongoose": "^5.7.13",
+    "rxjs": "^5.0.0",
+    "swagger-jsdoc": "^3.4.0",
+    "swagger-ui-express": "^4.1.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.1"
+  }
 }

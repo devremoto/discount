@@ -18,7 +18,7 @@
   <div class=" form-group">
     <label for="name">Birth Date</label>
 
-    <input type="date" class="form-control" [ngModel]="user.birthdate | date:'yyyy-MM-dd'" (change)="user.birthdate = $event.target.value" id="birthdate" name="birthdate" placeholder="birthdate" [ngModelOptions]="{standalone: true}">
+    <input type="date" class="form-control" [ngModel]="user.birthdate | date:'yyyy-MM-dd':'utc'" (change)="user.birthdate = $event.target.value" id="birthdate" name="birthdate" placeholder="birthdate" [ngModelOptions]="{standalone: true}">
   </div>
   <button type=" submit" class="btn btn-primary" (click)="save(user)">Save</button>
   <button type="submit" class="btn btn-default" (click)="cancel()">Cancel</button>
@@ -32,7 +32,7 @@
   </tr>
   <tr *ngFor="let user of ( $users | async )">
     <td>{{user.firstname}} - {{user.lastname}}</td>
-    <td>{{user.birthdate | date : 'yyyy-MM-dd'}}</td>
+    <td>{{user.birthdate | date : 'yyyy-MM-dd':'utc'}}</td>
     <td>
       <button class="btn btn-sm btn-danger" (click)="delete(user)"> <i class="fa fa-trash"></i></button>&nbsp;
       <button class="btn btn-sm btn-primary" (click)="edit(user)"><i class="fa fa-pen"></i></button>&nbsp;

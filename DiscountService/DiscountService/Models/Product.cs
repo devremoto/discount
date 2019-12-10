@@ -9,7 +9,7 @@ namespace ProductService.Models
 		[BsonElement("_id")]
 		public ObjectId Id { get; set; }
 
-		[BsonElement("priceInCents")]
+		[BsonElement("price")]
 		public int Price { get; set; }
 
 		[BsonElement("title")]

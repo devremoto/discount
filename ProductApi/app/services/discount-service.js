@@ -1,42 +1,58 @@
 const client = require('../infra/grpc/client/discount.client');
-const { createRpcCommand } = require("../infra/circuitbreaker/command-factory");
-// Let's say rpcClient.get(request, (err, res) ...) is your function
-// You really need .bind()!
-
-const request = new messages.YourMessage();
-
-command
-  .execute(request)
-  .then(response => {
-    // do something with response
-  })
-  .catch(error => {
-    // do something with error
-  });
+const { createRpcCommand } = require('../infra/circuitbreaker/command-factory');
+const repository = require('../infra/repositories/product-repository');
+const discountRPCService = client.getService('Discount');
 
 const discountService = {
   discount: userId => {
-    return new Promise((resolve, reject) => {
-
-
-
-      const discountRPCService = client.getService('Discount');
-      //const command = createRpcCommand(discountRPCService.GetDiscount.bind(discountRPCService));
-      //discountRPCService.GetDiscount({ userId })
-      discountRPCService.GetDiscount({ userId }, (error, response) => {
-        error ? reject(error) : resolve(response);
-      });
+    const command = createRpcCommand(
+      discountRPCService.GetDiscount.bind(discountRPCService)
+    );
+    const request = { userId };
+    return new Promise((resolve, _) => {
+      command
+        .execute(request)
+        .then(response => {
+          console.log(response);
+          resolve(response);
+        })
+        .catch(error => {
+          console.log('==============================================');
+          console.log(error);
+          resolve(null);
+        });
     });
   },
 
-  productDisount: (productId, userId) => {
+  productDiscount: (productId, userId) => {
+    const command = createRpcCommand(
+      discountRPCService.GetProductDiscount.bind(discountRPCService)
+    );
+    const request = { productId, userId };
     return new Promise((resolve, reject) => {
-      const discountRPCService = client.getService('Discount');
-      const request = { productId, userId };
-
-      discountRPCService.GetProductDiscount(request, (error, response) => {
-        error ? reject(error) : resolve(response);
-      });
+      command
+        .execute(request)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(_ => {
+          repository.find({ query: { _id: productId } }).then(
+            result => {
+              console.log('==============================================');
+              console.log(result);
+              if (result.length) {
+                resolve(result[0]);
+              } else {
+                reject('Product not found');
+              }
+            },
+            error => {
+              console.log('==============================================');
+              console.log(error);
+              reject(error);
+            }
+          );
+        });
     });
   }
 };

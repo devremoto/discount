@@ -38,10 +38,11 @@ namespace ProductService.Services
 			var product = await _productRepository.GetById(productId);
 			if (product != null)
 			{
-				return new ProductModel
+				var productModel = new ProductModel
 				{
 					Id = product.Id.ToString(),
 					Price = product.Price,
+					Title = product.Title,
 					Description = product.Description,
 					Discount = new DiscountModel
 					{
@@ -50,6 +51,7 @@ namespace ProductService.Services
 						FinalPrice = product.Price * (1 - (discount / 100))
 					}
 				};
+				return productModel;
 			}
 			return null;
 		}

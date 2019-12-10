@@ -1,0 +1,26 @@
+﻿<!--modal edit -->
+
+<div class="modal-header">
+  <h4 class="modal-title">{{ ($product | async)?.title }}</h4>
+  <button type="button" class="close" (click)="hideModal()">×</button>
+</div>
+<div class="modal-body" *ngIf="($product | async)?.title">
+  <div class="form-group">
+    <label for="name"><b>Description</b></label>
+    {{ ($product | async)?.description }}
+  </div>
+  <div class="form-group" *ngIf="($product | async)?.discount?.pct > 0">
+    <label for="name"><b>Price</b></label>
+    from: <span style="text-decoration: line-through; color:red">{{($product | async)?.price}}</span><br />
+    to: <span style="color:gren">{{($product | async)?.discount?.finalPrice}}</span><br />
+    discount: <span style="color:gren">{{($product | async)?.discount?.pct}} %</span><br />
+  </div>
+
+  <div class="form-group" *ngIf="($product | async)?.discount?.pct == 0">
+    <label for="name"><b>Price</b></label>
+    {{($product | async)?.price}}
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" (click)="hideModal()" class="btn btn-default">CLOSE</button>
+</div>

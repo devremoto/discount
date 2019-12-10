@@ -38,12 +38,13 @@
     <td *ngIf="product.discount.pct > 0">
       from: <span style="text-decoration: line-through; color:red">{{product.price}}</span><br />
       to: <span style="color:gren">{{product.discount.finalPrice}}</span><br />
-      discount: <span style="color:gren">{{product.discount.pct}} %</span><br />
+      discount: <span style="color:gren">{{product.discount?.pct}} %</span><br />
     </td>
-    <td *ngIf="product.discount.pct === 0">{{product.price}}</td>
+    <td *ngIf="product.discount.pct === 0">{{product?.price}}</td>
     <td>
       <button class="btn btn-sm btn-danger" (click)="delete(product)"> <i class="fa fa-trash"></i></button>&nbsp;
-      <button class="btn btn-sm btn-primary" (click)="edit(product)"><i class="fa fa-pen"></i></button>
+      <button class="btn btn-sm btn-primary" (click)="edit(product)"><i class="fa fa-pen"></i></button>&nbsp;
+      <button class="btn btn-sm btn-default" (click)="openModal(product._id)"><i class="fa fa-eye"></i></button>
     </td>
   </tr>
 </table>
