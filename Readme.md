@@ -4,9 +4,9 @@
 
 - **ProductApi** `Node JS and GRPC client` with `swagger` enabled and `hystrixjs` as cirtuit breaker library
 
-* **Frontend** - angular aplications to manage CRUD operations and simulate de logged user
+* **Frontend** - angular aplications to manage CRUD operations and simulate user logged
   > - 1 - **Special Date** - responsible to configure discounts at a specific date
-  > - 2 - **Products** - manages CRUD operations and allows to visualize the discounts when is user birthdate or Special Date (e.g.:BLack Friday)
+  > - 2 - **Products** - manages CRUD operations and allows to visualize the discounts when is user birthdate or Special Date (e.g.:Black Friday)
   > - 3 - **Users** - Manages CRUD operations and allows to simulate the user logon, in order to pass `X-USER-ID` headers to ProductApi services and Discount Service (GRPC)
 
 ## RUN
@@ -18,6 +18,23 @@ Run the files `run-local.bat` on Windows or `run-local.sh` on Linux
 ### DOCKER
 
 Run the files `build-run-docker.bat` on Windows or `build-run-docker.sh` on Linux
+
+### ENDPOINTS
+
+#### Frontend
+
+> - **Angular** -http://localhost:4200
+
+#### DiscountService
+
+> - **GRPC Server** -http://localhost:5003
+
+#### ProductsApi
+
+> - **Products** - http://localhost:5001/products
+> - **Users** - http://localhost:5001/users
+> - **Special Dates** - http://localhost:5001/special-dates
+> - **Swagger** -http://localhost:5001/swagger
 
 # Get in touch
 
