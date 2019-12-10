@@ -4,8 +4,8 @@
 
 - **ProductApi** `Node JS and GRPC client` with `swagger` enabled and `hystrixjs` as cirtuit breaker library
 
-* **Frontend** - angular aplications to manage CRUD operations ans simulate de logged user
-  > - 1 - **Special Date** - responsible to manage discounts at an specific date
+* **Frontend** - angular aplications to manage CRUD operations and simulate de logged user
+  > - 1 - **Special Date** - responsible to configure discounts at a specific date
   > - 2 - **Products** - manages CRUD operations and allows to visualize the discounts when is user birthdate or Special Date (e.g.:BLack Friday)
   > - 3 - **Users** - Manages CRUD operations and allows to simulate the user logon, in order to pass `X-USER-ID` headers to ProductApi services and Discount Service (GRPC)
 
