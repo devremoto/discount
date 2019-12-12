@@ -1,5 +1,6 @@
 const JL = require('jsnlog').JL;
 const repository = require('../infra/repositories/special-date-repository');
+const moment = require('moment');
 
 module.exports = {
   list: () => {
@@ -12,9 +13,11 @@ module.exports = {
         .find({ query: { _id: id } })
         .then(result => {
           if (result.length == 1) {
-            resolve(result[0]);
+            let date = result[0];
+            date.date = moment.utc(date.date);
+            resolve(date);
           } else if (result.length <= 0) {
-            reject(`The user was not found`);
+            reject(`The special date was not found`);
           } else {
             reject(`Found ${result.length} user with (${id})`);
           }
@@ -26,6 +29,7 @@ module.exports = {
   },
 
   create: entity => {
+    entity.date = moment.utc(entity.date);
     return new Promise((resolve, reject) => {
       if (entity) {
         repository.find({ query: { _id: entity._id } }).then(result => {
@@ -50,6 +54,7 @@ module.exports = {
   },
 
   update: entity => {
+    entity.date = moment.utc(entity.date);
     return new Promise((resolve, reject) => {
       repository
         .find({ query: { _id: entity._id } })

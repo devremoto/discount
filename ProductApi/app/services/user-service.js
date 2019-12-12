@@ -1,5 +1,6 @@
 const JL = require('jsnlog').JL;
 const repository = require('../infra/repositories/user-repository');
+const moment = require('moment');
 
 module.exports = {
   list: () => {
@@ -12,7 +13,9 @@ module.exports = {
         .find({ query: { _id: id } })
         .then(result => {
           if (result.length == 1) {
-            resolve(result[0]);
+            let user = result[0];
+            user.birthdate = moment.utc(user.birthdate);
+            resolve(user);
           } else if (result.length <= 0) {
             reject(`The user was not found`);
           } else {
@@ -26,6 +29,7 @@ module.exports = {
   },
 
   create: entity => {
+    entity.birthdate = moment.utc(entity.birthdate);
     return new Promise((resolve, reject) => {
       if (entity) {
         repository.find({ query: { _id: entity._id } }).then(result => {
@@ -50,6 +54,7 @@ module.exports = {
   },
 
   update: entity => {
+    entity.birthdate = moment.utc(entity.birthdate);
     return new Promise((resolve, reject) => {
       repository
         .find({ query: { _id: entity._id } })

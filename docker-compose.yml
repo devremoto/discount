@@ -3,6 +3,8 @@ version: '3'
 services:
   discount-mongodb:
     image: docker.io/mongo
+    environment:
+      - TZ=UTC
     ports:
       - 27017:27017
     networks:
@@ -18,6 +20,8 @@ services:
       context: ./Frontend
     image: discount/front
     container_name: discount-front
+    environment:
+      - TZ=UTC
     ports:
       - 4200:80
     networks:
@@ -30,6 +34,7 @@ services:
       dockerfile: Dockerfile
       context: ./ProductApi
     environment:
+      - TZ=UTC
       - DB_URL=mongodb://discount-mongodb:27017/productdb
       - APP_PORT=5001
       - APP_URL_PREFIX=
@@ -52,6 +57,7 @@ services:
       dockerfile: DiscountService/Dockerfile
       context: ./DiscountService
     environment:
+      - TZ=UTC
       - AppConfiguration:DB_URL=mongodb://discount-mongodb:27017/productdb
       - AppConfiguration:DB_NAME=productdb
       - ASPNETCORE_URLS=http://+:5003

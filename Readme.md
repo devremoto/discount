@@ -15,9 +15,18 @@
 
 Run the files `run-local.bat` on Windows or `run-local.sh` on Linux
 
+obs: On linux, change the file permitions before run 
+```
+sudo chmod +x ./run-docker.sh && ./run-docker.sh
+```
 ### DOCKER
 
 Run the files `build-run-docker.bat` on Windows or `build-run-docker.sh` on Linux
+
+obs: On linux, change the file permitions before run 
+```
+sudo chmod +x ./build-run-docker.sh && ./build-run-docker.sh
+```
 
 ### ENDPOINTS
 

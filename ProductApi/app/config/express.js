@@ -9,7 +9,7 @@ module.exports = (function() {
   const app = express();
   const http = require('http').Server(app);
 
-  let names = ['product', 'user'];
+  let names = ['product', 'user', 'special-date'];
 
   app.use((req, _, next) => {
     next();
