@@ -1,4 +1,3 @@
-const JL = require('jsnlog').JL;
 const repository = require('../infra/repositories/product-repository');
 const discountService = require('./discount-service');
 
@@ -24,9 +23,6 @@ const productService = {
 
   create: async entity => {
     if (entity) {
-      JL('product-service').log(
-        `entering create: ${JSON.stringify(entity)}`
-      );
       const result = await repository.find({ query: { _id: entity._id } });
       if (result.length == 0) {
         return repository.add(entity);
