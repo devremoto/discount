@@ -20,62 +20,27 @@ module.exports = {
             );
         })
     },
-    add: (model, data) => {
-        return new Promise((resolve, reject) => {
-            if (data instanceof Array) {
-                model.insertMany(data).then(docs => {
-                    resolve(docs)
-                }).catch(error => {
-                    reject(error);
-                })
-            } else {
-                new model(data).save().then(docs => {
-                    resolve(docs)
-                }).catch(error => {
-                    reject(error);
-                })
-            }
-        })
+    add: async (model, data) => {
+        if (data instanceof Array) {
+            return await model.insertMany(data);
+        } else {
+            return await new model(data).save();
+        }
     },
-    update: (model, data) => {
-        return new Promise((resolve, reject) => {
-
-            model.findOneAndUpdate({ _id: data._id }, data).then(docs => {
-                resolve(data)
-            }).catch(error => {
-                reject(error);
-            })
-        })
+    update: async (model, data) => {
+        await model.findOneAndUpdate({ _id: data._id }, data);
+        return data;
     },
-    delete: (model, id) => {
-        return new Promise((resolve, reject) => {
-
-            model.findOneAndDelete({ _id: id }).then(docs => {
-                resolve(docs)
-            }).catch(error => {
-                reject(error);
-            })
-        })
+    delete: async (model, id) => {
+        const docs = await model.findOneAndDelete({ _id: id });
+        return docs;
     },
-    getAll: (model) => {
-        return new Promise((resolve, reject) => {
-            model.find({})
-                .then(docs => {
-                    resolve(docs)
-                }).catch(error => {
-                    reject(error);
-
-                })
-        })
+    getAll: async (model) => {
+        const docs = await model.find({});
+        return docs;
     },
-    find: (data) => {
-        return new Promise((resolve, reject) => {
-
-            data.model.find(data.query).then(docs => {
-                resolve(docs)
-            }).catch(error => {
-                reject(error);
-            })
-        })
+    find: async (data) => {
+        const docs = await data.model.find(data.query);
+        return docs;
     }
 }

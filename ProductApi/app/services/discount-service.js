@@ -4,56 +4,28 @@ const repository = require('../infra/repositories/product-repository');
 const discountRPCService = client.getService('Discount');
 
 const discountService = {
-  discount: userId => {
+  discount: async userId => {
     const command = createRpcCommand(
       discountRPCService.GetDiscount.bind(discountRPCService)
     );
     const request = { userId };
-    return new Promise((resolve, _) => {
-      command
-        .execute(request)
-        .then(response => {
-          console.log(response);
-          resolve(response);
-        })
-        .catch(error => {
-          console.log('==============================================');
-          console.log(error);
-          resolve(null);
-        });
-    });
+    return await command.execute(request);
   },
 
-  productDiscount: (productId, userId) => {
+  productDiscount: async (productId, userId) => {
     const command = createRpcCommand(
       discountRPCService.GetProductDiscount.bind(discountRPCService)
     );
     const request = { productId, userId };
-    return new Promise((resolve, reject) => {
-      command
-        .execute(request)
-        .then(response => {
-          resolve(response);
-        })
-        .catch(_ => {
-          repository.find({ query: { _id: productId } }).then(
-            result => {
-              console.log('==============================================');
-              console.log(result);
-              if (result.length) {
-                resolve(result[0]);
-              } else {
-                reject('Product not found');
-              }
-            },
-            error => {
-              console.log('==============================================');
-              console.log(error);
-              reject(error);
-            }
-          );
-        });
-    });
+    try {
+      const response = await command.execute(request);
+      return response;
+    } catch (error) {
+      const result = await repository.find({ query: { _id: productId } });
+      if (result.length){
+        return result[0]
+      }
+    }
   }
 };
 

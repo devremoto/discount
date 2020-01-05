@@ -1,75 +1,25 @@
 const connection = require('../mongo-connection');
 const model = require('../../models/user');
-const JL = require('jsnlog').JL;
 
 
 module.exports = {
-    add: (data) => {
-        return new Promise((resolve, reject) => {
-            if (data.parent) {
-                data.parent = data.parent._id;
-            }
-            connection
-                .add(model, data)
-                .then(res => {
-                    resolve(res);
-                })
-                .catch(err => {
-                    reject(err);
-                });
-        });
+    add: async data => {
+      return await connection.add(model, data);
     },
-
-    delete: (id) => {
-        return new Promise((resolve, reject) => {
-            connection
-                .delete(model, id)
-                .then(res => {
-                    resolve(res);
-                })
-                .catch(err => {
-                    reject(err);
-                });
-        });
+  
+    delete: async id => {
+      return await connection.delete(model, id);
     },
-
-    update: (data) => {
-        return new Promise((resolve, reject) => {
-            connection
-                .update(model, data)
-                .then(res => {
-                    console.log(data);
-                    JL('repository').info(
-                        `update - OK:${JSON.stringify(data)} ${JSON.stringify(
-                            res
-                        )}`
-                    );
-                    resolve(res);
-                })
-                .catch(err => {
-                    JL('repository').error(
-                        `update - ERROR:${JSON.stringify(
-                            data
-                        )} ${JSON.stringify(err)}`
-                    );
-                    reject(err);
-                });
-        });
+  
+    update: async data => {
+      return await connection.update(model, data);
     },
-
-    getAll: () => {
-        return new Promise((resolve, reject) => {
-            connection
-                .getAll(model)
-                .then(docs => {
-                    resolve(docs);
-                })
-                .catch(error => {
-                    reject(error);
-                });
-        });
+  
+    getAll: async () => {
+      const docs = await connection.getAll(model);
+      return docs;
     },
-    find: data => {
-        return connection.find({ model, query: data.query });
+    find: async data => {
+      return await connection.find({ model, query: data.query });
     }
-};
+  };
